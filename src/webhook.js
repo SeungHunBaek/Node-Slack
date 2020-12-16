@@ -1,6 +1,7 @@
 const Slack = require('slack-node');
 
 const webhookUri = "https://hooks.slack.com/services/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";
+// const webhookUri = "https://hooks.slack.com/services/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";
 
 const slack = new Slack();
 slack.setWebhook(webhookUri);
@@ -14,4 +15,4 @@ const send = async(message) => {
   });
 }
 
-send("abc");
+send("test");

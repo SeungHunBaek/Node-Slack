@@ -1,13 +1,14 @@
 const Slack = require('slack-node');
 
-const webhookUri = "https://hooks.slack.com/services/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";
-// const webhookUri = "https://hooks.slack.com/services/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";
+// Channel:	#nodejs
+// App:	#WebHook
+const webhookUri = "https://hooks.slack.com/services/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";
 
 const slack = new Slack();
 slack.setWebhook(webhookUri);
 const send = async(message) => {
   slack.webhook({
-    channel: "#develop", // 전송될 슬랙 채널
+    channel: "#webhook", // 전송될 슬랙 채널
     username: "webhookbot", //슬랙에 표시될 이름
     text: message
   }, function(err, response) {

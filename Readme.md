@@ -6,7 +6,6 @@ Slack과 NodeJs의 API연동 프로젝트
 ``` bash
 # Project Download 
 git clone https://github.com/SeungHunBaek/Node-Slack.git
-git clone https://git.heroku.com/glacial-wildwood-87843.git
 
 # Move to project folder
 cd node-slack

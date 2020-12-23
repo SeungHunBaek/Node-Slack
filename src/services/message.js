@@ -1,11 +1,12 @@
 const { WebClient } = require('@slack/web-api');
 const  constant = require('../constant/constant');
+const  CONFIG = require('../../config/config.json');
 
 exports.messageBot = async (req, res, next) => {
     try {
         console.log("[messageBot]: start");
 
-        const web = new WebClient(constant.TOKEN);
+        const web = new WebClient(CONFIG.EVENT_BOT_ACCESS_TOKEN);
 
         let body = req.body;
         let event = body.event;

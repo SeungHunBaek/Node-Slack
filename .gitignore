@@ -41,8 +41,6 @@ build/Release
 node_modules/
 jspm_packages/
 
-# Token directories
-src/constant/constant.js
 
 # TypeScript v1 declaration files
 typings/
@@ -105,3 +103,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Token config directories
+config/config.json

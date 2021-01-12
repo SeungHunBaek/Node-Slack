@@ -15,5 +15,8 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "slack-node": "^0.1.8"
+  },
+  "devDependencies": {
+    "redis": "^3.0.2"
   }
 }

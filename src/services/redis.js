@@ -9,9 +9,6 @@ const redisClient = redis.createClient({
 })
 
 let instance = class {
-    constructor(key){
-        this.key = key;
-    }
 
     get(){
 

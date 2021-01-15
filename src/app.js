@@ -24,7 +24,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/slack',slackRouter);
-app.use('/command',command);
+app.use('/command',(req, res, next) => {
+  console.log("[app.js]: command start()");
+  res.sendStatus(200);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

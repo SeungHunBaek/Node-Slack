@@ -9,15 +9,28 @@ const client = redis.createClient({
 let instance = class {
 
     get(key){
-        return client.set(key, (err, result) => {
+        return client.get(key, (err, result) => {
             return result;
         });        
     }
-
     set(key, value){
         client.set(key, value);
     }
-
+    // 마지막 list에 추가
+    rPush(key, value) {
+        client.rpush(key, value); 
+        // client.rpush(1, 2); 
+    }
+    //list 처음에 추가
+    lPush(key, value) {
+        client.lpush(key, value);
+    }
+    // start~end까지의 list검색
+    lRange(key, start, end) {
+        return client.lrange(key, start, end, (err, result) => {
+            return result;
+        });
+    }
 
 }
 

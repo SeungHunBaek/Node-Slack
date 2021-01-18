@@ -1,21 +1,21 @@
 'use strict';
 
 const redis = require("redis");
-const redisClient = redis.createClient({
+const client = redis.createClient({
     host:"127.0.0.1",
     port:6379,
-    db:0,
-    password:"baek"
 })
 
 let instance = class {
 
-    get(){
-
+    get(key){
+        return client.set(key, (err, result) => {
+            return result;
+        });        
     }
 
-    set(){
-
+    set(key, value){
+        client.set(key, value);
     }
 
 

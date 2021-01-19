@@ -6,10 +6,7 @@ const web = new WebClient(token);
 let redisController = require('../controllers/redis-controller');
 
 
-// router.get('/', (req, res, next) => {
-//     res.send('respond with a resource');
-// });
-// events 요청
+router.post('/get', redisController.setData);
 
 router.post('/set', redisController.setData);
 

@@ -1,9 +1,10 @@
 const redisWrapper = require('../services/redis');
 const redisService = new redisWrapper();
 
-exports.getEvent = async(req, res, next)=>{
-    let body = req.body;
-    let event = body.event;
+exports.getData = async(req, res, next)=>{
+  let body = req.body;
+  let command = body.command;
+  let text = body.text;
     try {
       console.log("================get");
       res.sendStatus(200);

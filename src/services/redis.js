@@ -13,7 +13,7 @@ client.on("ready", () => {
     console.log("Redis is ready ");
 });
 
-let instance = class {
+const instance = class {
     set(slackId, token, expireTime){
         try {
             console.log("[redis.expire]start");
@@ -82,6 +82,27 @@ let instance = class {
         client.rename(originKey, rename);
     }
 
+    keys(keys) {
+        // The * pattern returns an array of all keys
+        client.keys(keys, function (err, arrayOfKeys) {
+            console.log("[redis.keys]");
+            arrayOfKeys.forEach( function (key) {
+                console.log(key);
+            });
+        });
+    }
+
+    flushall(){
+        client.flushall( function (didSucceed) {
+            console.log("[redis.flushall]");
+            console.log(didSucceed); 
+        });
+    }
+
+    
+
+
+
 }
 
-module.exports = instance;
+module.exports = new instance();

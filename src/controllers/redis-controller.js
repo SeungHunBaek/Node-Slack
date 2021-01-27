@@ -37,6 +37,14 @@ exports.commands = async(req, res, next)=>{
             redisService.get(get_key,value);
           break;
 
+        case "keys":
+            let keys = commands[1];
+            redisService.keys(keys);
+          break;
+
+        case "flushall":
+            redisService.keys();
+          break;
       }
       res.sendStatus(200);
     } catch (error) {

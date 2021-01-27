@@ -10,6 +10,6 @@ router.post('/get', redisController.setData);
 
 router.post('/set', redisController.setData);
 
-
+router.post('/commands', redisController.commands);
 
 module.exports = router;

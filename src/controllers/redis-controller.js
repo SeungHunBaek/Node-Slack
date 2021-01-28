@@ -34,7 +34,10 @@ exports.commands = async(req, res, next)=>{
 
         case "get":
             let get_key = commands[1];
-            redisService.get(get_key,value);
+            const keys = await redisService.get(get_key);
+            keys.forEach( key => {
+              console.log(key);
+            });
           break;
 
         case "keys":

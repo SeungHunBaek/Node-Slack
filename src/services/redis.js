@@ -82,14 +82,19 @@ const instance = class {
         client.rename(originKey, rename);
     }
 
-    keys(keys) {
+    async keys(keys) {
         // The * pattern returns an array of all keys
-        client.keys(keys, function (err, arrayOfKeys) {
-            console.log("[redis.keys]");
-            arrayOfKeys.forEach( function (key) {
-                console.log(key);
+        return new Promise((resolve, reject)=>{
+            client.keys(keys, function (err, arrayOfKeys) {
+                console.log("[redis.keys]");
+                const keysArr = [];
+                arrayOfKeys.forEach( function (key) {
+                    keysArr.push(key);
+                });
+                resolve(arrayOfKeys);
             });
-        });
+        })
+
     }
 
     flushall(){

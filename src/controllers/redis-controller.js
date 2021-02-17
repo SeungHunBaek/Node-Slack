@@ -1,5 +1,4 @@
-const redisWrapper = require('../services/redis');
-const redisService = new redisWrapper();
+const redisService = require('../services/redis');
 
 exports.getData = async(req, res, next)=>{
   let body = req.body;
@@ -41,8 +40,8 @@ exports.commands = async(req, res, next)=>{
           break;
 
         case "keys":
-            let keys = commands[1];
-            redisService.keys(keys);
+            let getKeys = commands[1];
+            redisService.keys(getKeys);
           break;
 
         case "flushall":

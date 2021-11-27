@@ -1,52 +1,65 @@
-let createError = require('http-errors');
-let express = require('express');
-let path = require('path');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
+const { App } = require('@slack/bolt');
+const slackService = require('./modules/slackService');
+const config = require('../config/config.json');
+const axios = require('axios');
 
-let indexRouter = require('./routes/index');
-let usersRouter = require('./routes/users');
-let slackRouter = require('./routes/slack');
-let command = require('./routes/command');
-
-let app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/slack',slackRouter);
-app.use('/command', command);
-// app.use('/command',(req, res, next) => {
-//   console.log("[app.js]: command start()");
-//   res.sendStatus(200);
-// });
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+// Initializes your app with your bot token and app token
+const app = new App({
+  token: config.token,
+  signingSecret: config.signingSecret,
+  socketMode: config.socketMode,
+  appToken: config.appToken
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+(async () => {
+  // Start your app
+  await app.start(process.env.PORT || 3000);
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  console.log('⚡️ Bolt app is running!');
+})();
+
+// Listens to incoming messages that contain "hello"
+app.message('hello', async ({ message, say }) => {
+  // say() sends a message to the channel where the event was triggered
+  await say({
+    blocks: [
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": `Hey there <@${message.user}>!`
+        },
+        "accessory": {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Click Me"
+          },
+          "action_id": "button_click"
+        }
+      }
+    ],
+    text: `Hey there <@${message.user}>!`
+  });
 });
 
-app.listen(3000, () => {
-  console.log("Listening port 3000");
+app.command('/covid19', async ({ body, ack, say }) => {
+  try {
+    await ack();
+    const covidData = await axios.get(`http://localhost:3000/covid`);
+    const covidInfo = covidData.data[0];
+    const message = slackService.getBlockMessage(covidInfo)
+    console.log(body)
+    await say(message);
+    
+  } catch (error) {
+    console.log(error)
+  }
 });
-// module.exports = app;
+
+app.action('button_click', async ({ body, ack, say}) => {
+  // Acknowledge the action
+  await ack();
+  await say(`<@${body.user.id}> clicked the button`);
+});
+

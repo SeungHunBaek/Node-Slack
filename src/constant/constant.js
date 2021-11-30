@@ -1,1 +1,0 @@
-exports.TOKEN = 'xoxb-1584474769732-1575869421926-QwjbE8xm163JrYhl1rxswDra'; 

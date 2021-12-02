@@ -18,48 +18,17 @@ const app = new App({
   console.log('⚡️ Bolt app is running!');
 })();
 
-// Listens to incoming messages that contain "hello"
-app.message('hello', async ({ message, say }) => {
-  // say() sends a message to the channel where the event was triggered
-  await say({
-    blocks: [
-      {
-        "type": "section",
-        "text": {
-          "type": "mrkdwn",
-          "text": `Hey there <@${message.user}>!`
-        },
-        "accessory": {
-          "type": "button",
-          "text": {
-            "type": "plain_text",
-            "text": "Click Me"
-          },
-          "action_id": "button_click"
-        }
-      }
-    ],
-    text: `Hey there <@${message.user}>!`
-  });
-});
-
+// Slack command
 app.command('/covid19', async ({ body, ack, say }) => {
   try {
-    await ack();
-    const covidData = await axios.get(`http://localhost:3000/covid`);
-    const covidInfo = covidData.data[0];
-    const message = slackService.getBlockMessage(covidInfo)
+    await ack('데이터를 취득중입니다.');
+    const covidData = await axios.get(config.covidInfoUrl);
+    const message = slackService.getBlockMessage(covidData.data[0])
     console.log(body)
     await say(message);
     
   } catch (error) {
     console.log(error)
+    await say(`에러가 발생했습니다. 관리자에게 연락 해 주세요(Error Code: ${error.code})`);
   }
 });
-
-app.action('button_click', async ({ body, ack, say}) => {
-  // Acknowledge the action
-  await ack();
-  await say(`<@${body.user.id}> clicked the button`);
-});
-

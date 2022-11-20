@@ -4,12 +4,12 @@
   "main": "app.js",
   "scripts": {
     "ngrok": "ngrok http 3000",
-    "start": "node src/app.js",
+    "start": "node ./src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "license": "MIT",
   "dependencies": {
     "@slack/bolt": "^3.6.0",
-    "axios": "^0.24.0"
+    "dotenv": "^16.0.3"
   }
 }
